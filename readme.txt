@@ -3,7 +3,7 @@ Contributors: thecartpress
 Tags: CartPress, ecommerce, e-commerce, store, shop, shopping, shopping cart, cart, custom post type, taxonomy, taxonomies, ecomerce, products, TheCartPress, html5, limits
 Requires at least: 3.1
 Tested up to: 3.3
-Stable Tag: 1.0.0
+Stable Tag: 1.0.1
 
 Adds Limit prices or weight into TheCartPress, the eCommerce plugin for WP
 
@@ -12,8 +12,12 @@ Adds Limit prices or weight into TheCartPress, the eCommerce plugin for WP
 Adds Limit prices or weight into TheCartPress, the eCommerce plugin for WP
 
 = More info and Community =
-[TheCartPress Site](http://thecartpress.com)
-[TheCartPress Community](http://community.thecartpress.com/forums/)
+
+* [TheCartPress Extend](http://extend.thecartpress.com): plugins, themes and custom development
+* [TheCartPress Demo](http://demo.thecartpress.com)
+* [TheCartPress Community/Support](http://community.thecartpress.com/activity/)
+* [TheCartPress Site](http://thecartpress.com)
+
 
 == Installation ==
 

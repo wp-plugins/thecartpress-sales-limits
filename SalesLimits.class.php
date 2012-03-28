@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: TheCartPress Sales Limits
-Plugin URI: http://thecartpress.com
+Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: sales Limits for TheCartPress
-Version: 1.0
+Version: 1.0.1
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -42,7 +42,7 @@ class TCPSalesLimits {
 
 	function admin_notices() {
 		echo '<div class="error">
-			<p>', __( '<strong>Limits for TheCartPress</strong> requires TheCartPress plugin is activated.', 'tcp_max' ), '</p>
+			<p>', __( '<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated.', 'tcp_max' ), '</p>
 		</div>';
 	}
 
@@ -51,24 +51,24 @@ class TCPSalesLimits {
 		if ( isset( $args['see_maximum_msg'] ) && $args['see_maximum_msg'] ) {
 			$shoppingcart = TheCartPress::getShoppingCart();
 			$max_settings = get_option( 'tcp_max_settings', array() );
-//			$min_price = isset( $max_settings['min_price'] ) ? (float)$max_settings['min_price'] : 0;
+			$min_price = isset( $max_settings['min_price'] ) ? (float)$max_settings['min_price'] : 0;
 			$max_price = isset( $max_settings['max_price'] ) ? (float)$max_settings['max_price'] : 0;
-//			$min_weight = isset( $max_settings['min_weight'] ) ? (float)$max_settings['min_weight'] : 0;
+			$min_weight = isset( $max_settings['min_weight'] ) ? (float)$max_settings['min_weight'] : 0;
 			$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
 			$weight = $shoppingcart->getWeight();
-			$total = $shoppingcart->getTotal();
-			if ( $max_weight > 0 && $weight > $max_weight ) {
-				$out .= '<li class="tcp_max_error exceed_weight">' . $this->exceed_weight() . '</li>';
-			}
-//			if ( $weight < $min_weight ) {
-//				$out .= '<li class="tcp_min_error not_reach_weight">' . $this->not_reach_weight() . '</li>';
-//			}
+			$total = $shoppingcart->getTotalToShow();
 			if ( $max_price > 0 && $total > $max_price ) {
 				$out .= '<li class="tcp_max_error exceed_price">' . $this->exceed_price() . '</li>';
 			}
-//			if ( $total < $min_price ) {
-//				$out .= '<li class="tcp_min_error not_reach_price">' . $this->not_reach_price() . '</li>';
-//			}
+			if ( $total < $min_price ) {
+				$out .= '<li class="tcp_min_error not_reach_price">' . $this->not_reach_price() . '</li>';
+			}
+			if ( $max_weight > 0 && $weight > $max_weight ) {
+				$out .= '<li class="tcp_max_error exceed_weight">' . $this->exceed_weight() . '</li>';
+			}
+			if ( $weight < $min_weight ) {
+				$out .= '<li class="tcp_min_error not_reach_weight">' . $this->not_reach_weight() . '</li>';
+			}
 		}
 		return $html . $out;
 	}
@@ -88,18 +88,21 @@ class TCPSalesLimits {
 		$min_weight = isset( $max_settings['min_weight'] ) ? (float)$max_settings['min_weight'] : 0;
 		$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
 		$weight = $shoppingcart->getWeight();
-		$total = $shoppingcart->getTotalToShow();
+		$total = $shoppingcart->getTotal();
+		if ( $max_price > 0 && $total > $max_price ) {
+			$param['msg'][] = $this->exceed_price();
+			$param['validate'] = false;
+		}
+		if ( $total < $min_price ) {
+			$param['msg'][] = $this->not_reach_price();
+			$param['validate'] = false;
+		}
 		if ( $max_weight > 0 && $weight > $max_weight ) {
-			$param['msg'] = $this->exceed_weight();
+			$param['msg'][] = $this->exceed_weight();
 			$param['validate'] = false;
-		} elseif ( $weight < $min_weight ) {
-			$param['msg'] = $this->not_reach_weight();
-			$param['validate'] = false;
-		} elseif ( $max_price > 0 && $total > $max_price ) {
-			$param['msg'] = $this->exceed_price();
-			$param['validate'] = false;
-		} elseif ( $total < $min_price ) {
-			$param['msg'] = $this->not_reach_price();
+		}
+		if ( $weight < $min_weight ) {
+			$param['msg'][] = $this->not_reach_weight();
 			$param['validate'] = false;
 		}
 		return $param;
