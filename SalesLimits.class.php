@@ -2,7 +2,7 @@
 /*
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
-Description: sales Limits for TheCartPress
+Description: Sales Limits for TheCartPress
 Version: 1.0.2
 Author: TheCartPress team
 Author URI: http://thecartpress.com
@@ -35,10 +35,10 @@ class TCPSalesLimits {
 		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
-	function admin_notices() {
-		echo '<div class="error">
-			<p>', __( '<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated.', 'tcp_max' ), '</p>
-		</div>';
+	function admin_notices() { ?>
+		<div class="error">
+			<p><?php _e( '<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated.', 'tcp_max' ); ?></p>
+		</div><?php
 	}
 
 	function tcp_get_shopping_cart_summary( $html, $args ) {
