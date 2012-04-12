@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tcp_max\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 14:53+0100\n"
+"POT-Creation-Date: 2012-04-12 07:51+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: sensei <sensei@thecartpress.com>\n"
+"Last-Translator: Sensei <sensei@thecartpress.com>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -12,54 +12,70 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-SearchPath-0: thecartpress-limits\n"
+"X-Poedit-SearchPath-0: thecartpress-sales-limits\n"
 
-#: thecartpress-limits/Limits.class.php:116
-#: thecartpress-limits/Limits.class.php:122
+#: thecartpress-sales-limits/SalesLimits.class.php:45
+msgid "<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated."
+msgstr ""
+
+#: thecartpress-sales-limits/SalesLimits.class.php:114
 #, php-format
 msgid "Sorry, orders over %1$s %2$s cannot be accepted"
 msgstr ""
 
-#: thecartpress-limits/Limits.class.php:129
-#: thecartpress-limits/Limits.class.php:135
+#: thecartpress-sales-limits/SalesLimits.class.php:120
+#, php-format
+msgid "Sorry, orders over %1$s cannot be accepted"
+msgstr ""
+
+#: thecartpress-sales-limits/SalesLimits.class.php:127
 #, php-format
 msgid "Sorry, orders under %1$s %2$s cannot be accepted"
 msgstr ""
 
-#: thecartpress-limits/Limits.class.php:142
+#: thecartpress-sales-limits/SalesLimits.class.php:133
+#, php-format
+msgid "Sorry, orders under %1$s cannot be accepted"
+msgstr ""
+
+#: thecartpress-sales-limits/SalesLimits.class.php:140
 msgid "See limits notices"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:30
-#: thecartpress-limits/admin/MAXSettings.class.php:39
+#: thecartpress-sales-limits/SalesLimits.class.php:150
+msgid "Settings"
+msgstr ""
+
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:23
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:34
 msgid "Limits settings"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:31
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:24
 msgid "Minimum price"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:32
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:25
 msgid "Maximum price"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:33
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:26
 msgid "Minimum weight"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:34
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:27
 msgid "Maximum weight"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:39
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:34
 msgid "Limits Settings"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:44
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:40
 msgid "Maximum-Minimum Settings"
 msgstr ""
 
-#: thecartpress-limits/admin/MAXSettings.class.php:49
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:45
 msgid "Save Changes"
 msgstr ""
 
