@@ -2,8 +2,8 @@
 /*
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
-Description: sales Limits for TheCartPress
-Version: 1.0.1
+Description: Sales Limits for TheCartPress
+Version: 1.0.3
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -30,20 +30,15 @@ Parent: thecartpress
 class TCPSalesLimits {
 
 	function init() {
-		if ( ! function_exists( 'is_plugin_active' ) )
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) )  {
-			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		}
-		if ( function_exists( 'load_plugin_textdomain' ) )
-			load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
+		if ( ! function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
-	function admin_notices() {
-		echo '<div class="error">
-			<p>', __( '<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated.', 'tcp_max' ), '</p>
-		</div>';
+	function admin_notices() { ?>
+		<div class="error">
+			<p><?php _e( '<strong>Sales Limits for TheCartPress</strong> requires TheCartPress plugin activated.', 'tcp_max' ); ?></p>
+		</div><?php
 	}
 
 	function tcp_get_shopping_cart_summary( $html, $args ) {
@@ -88,7 +83,7 @@ class TCPSalesLimits {
 		$min_weight = isset( $max_settings['min_weight'] ) ? (float)$max_settings['min_weight'] : 0;
 		$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
 		$weight = $shoppingcart->getWeight();
-		$total = $shoppingcart->getTotal();
+		$total = $shoppingcart->getTotalToShow();
 		if ( $max_price > 0 && $total > $max_price ) {
 			$param['msg'][] = $this->exceed_price();
 			$param['validate'] = false;
@@ -153,19 +148,6 @@ class TCPSalesLimits {
 		return $links;
 	}
 
-/*	function tcp_add_to_shopping_cart( $shopping_cart_item ) {
-		$shoppingcart = TheCartPress::getShoppingCart();
-		$max_settings = get_option( 'tcp_max_settings', array() );
-		$max_price = isset( $max_settings['max_price'] ) ? (float)$max_settings['max_price'] : 0;
-		$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
-		if ( $shoppingcart->getWeight() + $shopping_cart_item->getWeight() > $max_weight ) {
-			add_filter( 'tcp_buy_button_add_button', array( $this, 'exceed_weight' ) );
-		} elseif ( $shoppingcart->getTotal() + $shopping_cart_item->getTotal() > $max_price ) {
-			add_filter( 'tcp_buy_button_add_button', array( $this, 'exceed_price' ) );
-		}
-		return $shopping_cart_item;
-	}*/
-	
 	function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 		if ( is_admin() ) {
@@ -179,7 +161,6 @@ class TCPSalesLimits {
 			add_filter( 'tcp_checkout_validate_before_enter', array( $this, 'tcp_checkout_validate_before_enter' ) );
 			add_filter( 'tcp_get_shopping_cart_summary', array( $this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
 			add_filter( 'tcp_get_shopping_cart_widget', array( $this, 'tcp_get_shopping_cart_widget' ) );
-			//add_filter( 'tcp_add_to_shopping_cart', array( $this, 'tcp_add_to_shopping_cart' ) );
 		}
 	}
 }
