@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.0.2
+Version: 1.0.3
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -83,7 +83,7 @@ class TCPSalesLimits {
 		$min_weight = isset( $max_settings['min_weight'] ) ? (float)$max_settings['min_weight'] : 0;
 		$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
 		$weight = $shoppingcart->getWeight();
-		$total = $shoppingcart->getTotal();
+		$total = $shoppingcart->getTotalToShow();
 		if ( $max_price > 0 && $total > $max_price ) {
 			$param['msg'][] = $this->exceed_price();
 			$param['validate'] = false;
@@ -148,19 +148,6 @@ class TCPSalesLimits {
 		return $links;
 	}
 
-/*	function tcp_add_to_shopping_cart( $shopping_cart_item ) {
-		$shoppingcart = TheCartPress::getShoppingCart();
-		$max_settings = get_option( 'tcp_max_settings', array() );
-		$max_price = isset( $max_settings['max_price'] ) ? (float)$max_settings['max_price'] : 0;
-		$max_weight = isset( $max_settings['max_weight'] ) ? (float)$max_settings['max_weight'] : 0;
-		if ( $shoppingcart->getWeight() + $shopping_cart_item->getWeight() > $max_weight ) {
-			add_filter( 'tcp_buy_button_add_button', array( $this, 'exceed_weight' ) );
-		} elseif ( $shoppingcart->getTotal() + $shopping_cart_item->getTotal() > $max_price ) {
-			add_filter( 'tcp_buy_button_add_button', array( $this, 'exceed_price' ) );
-		}
-		return $shopping_cart_item;
-	}*/
-	
 	function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 		if ( is_admin() ) {
@@ -174,7 +161,6 @@ class TCPSalesLimits {
 			add_filter( 'tcp_checkout_validate_before_enter', array( $this, 'tcp_checkout_validate_before_enter' ) );
 			add_filter( 'tcp_get_shopping_cart_summary', array( $this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
 			add_filter( 'tcp_get_shopping_cart_widget', array( $this, 'tcp_get_shopping_cart_widget' ) );
-			//add_filter( 'tcp_add_to_shopping_cart', array( $this, 'tcp_add_to_shopping_cart' ) );
 		}
 	}
 }
