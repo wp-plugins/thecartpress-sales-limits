@@ -29,11 +29,13 @@ class TCPMaxSettings {
 	function admin_menu() {
 		if ( ! current_user_can( 'tcp_edit_settings' ) ) return;
 		global $thecartpress;
-		$base = $thecartpress->get_base_settings();
-		$page = add_submenu_page( $base, __( 'Lmits Setup', 'tcp-limits' ), __( 'Limits Setup', 'tcp-limits' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
-//		$page = add_submenu_page( $base, __( 'First Time Setup', 'tcp' ), __( 'First time', 'tcp' ), 'tcp_edit_settings', 'first_time_setup', array( &$this, 'admin_page' ) );
-		add_action( "load-$page", array( &$this, 'admin_load' ) );
-		add_action( "load-$page", array( &$this, 'admin_action' ) );
+		if ( $thecartpress ) {
+			$base = $thecartpress->get_base_settings();
+			$page = add_submenu_page( $base, __( 'Lmits Setup', 'tcp-limits' ), __( 'Limits Setup', 'tcp-limits' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
+			//$page = add_submenu_page( $base, __( 'First Time Setup', 'tcp' ), __( 'First time', 'tcp' ), 'tcp_edit_settings', 'first_time_setup', array( &$this, 'admin_page' ) );
+			add_action( "load-$page", array( &$this, 'admin_load' ) );
+			add_action( "load-$page", array( &$this, 'admin_action' ) );
+		}
 	}
 
 	function admin_load() {
