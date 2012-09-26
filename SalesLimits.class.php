@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.0.4
+Version: 1.0.5
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -68,10 +68,10 @@ class SalesLimits {
 		if ( isset( $args['see_maximum_msg'] ) && $args['see_maximum_msg'] ) {
 			$shoppingcart = TheCartPress::getShoppingCart();
 			global $thecartpress;
-//			$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
+			$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
 			$max_price = (float)$thecartpress->get_setting( 'max_price', 0 );
 			$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
-//			$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
+			$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
 			$max_weight = (float)$thecartpress->get_setting( 'max_weight', 0 );
 			$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
 			$weight = $shoppingcart->getWeight();
@@ -79,15 +79,15 @@ class SalesLimits {
 			if ( $max_weight > 0 && $weight > $max_weight && $fee_price == 0 ) {
 				$out .= '<li class="tcp_max_error exceed_weight">' . $this->exceed_weight() . '</li>';
 			}
-//			if ( $weight < $min_weight ) {
-//				$out .= '<li class="tcp_min_error not_reach_weight">' . $this->not_reach_weight() . '</li>';
-//			}
+			if ( $weight < $min_weight ) {
+				$out .= '<li class="tcp_min_fee not_reach_weight">' . $this->fee_weight() . '</li>';
+			}
 			if ( $max_price > 0 && $total > $max_price && $fee_weight == 0 ) {
 				$out .= '<li class="tcp_max_error exceed_price">' . $this->exceed_price() . '</li>';
 			}
-//			if ( $total < $min_price ) {
-//				$out .= '<li class="tcp_min_error not_reach_price">' . $this->not_reach_price() . '</li>';
-//			}
+			if ( $total > 0 && $total < $min_price && $fee_price > 0 ) {
+				$out .= '<li class="fee_error not_reach_price">' . $this->fee_price() . '</li>';
+			}
 		}
 		return $html . $out;
 	}
@@ -145,11 +145,25 @@ class SalesLimits {
 
 	}
 
-	function not_reach_weight( $html = '' ) {
+	function fee_weight( $html = '' ) {
+		global $thecartpress;
+		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
+		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
+		return $html . '<span class="tcp_fee_weight">' . sprintf( __( 'Sorry, orders under %1$s %2$s will be recharged with %3$s', 'tcp_max' ), $min_weight, tcp_get_the_unit_weight(), tcp_format_the_price( $fee_weight ) ) . '</span>';
+	}
+
+	function fee_price( $html = '' ) {
+		global $thecartpress;
+		$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
+		$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
+		return $html . '<span class="tcp_fee_weight">' . sprintf( __( 'Sorry, orders under %1$s will be recharged with %2$s', 'tcp_max' ), tcp_format_the_price( $min_price ), tcp_format_the_price( $fee_price ) ) . '</span>';
+	}
+
+	/*function not_reach_weight( $html = '' ) {
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
 		return $html . '<span class="tcp_max_error not_reach_weight">' . sprintf( __( 'Sorry, orders under %1$s %2$s cannot be accepted', 'tcp_max' ), $min_weight, tcp_get_the_unit_weight() ) . '</span>';
-	}
+	}*/
 
 	function not_reach_price( $html = '' ) {
 		global $thecartpress;
