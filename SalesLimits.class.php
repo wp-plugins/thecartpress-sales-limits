@@ -198,7 +198,7 @@ class SalesLimits {
 		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
 		$weight = $shoppingcart->getWeight();
 		if ( $weight < $min_weight && $fee_weight > 0 ) {
-			$shoppingcart->addOtherCost( TCP_LIMITS_WEIGHT_COST, $fee_weight, __( 'Minimum weight fee', 'tcp-limits' ) );
+			$shoppingcart->addOtherCost( TCP_LIMITS_WEIGHT_COST, $fee_weight, __( 'Minimum weight fee', 'tcp_max' ) );
 		} else {
 			$shoppingcart->deleteOtherCost( TCP_LIMITS_WEIGHT_COST );
 		}
@@ -206,7 +206,7 @@ class SalesLimits {
 		$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
 		$total = $shoppingcart->getTotalToShow();
 		if ( $total < $min_price && $fee_price > 0) {
-			$shoppingcart->addOtherCost( TCP_LIMITS_PRICE_COST, $fee_price, __( 'Minimum Price fee', 'tcp-limits' ) );
+			$shoppingcart->addOtherCost( TCP_LIMITS_PRICE_COST, $fee_price, __( 'Minimum Price fee', 'tcp_max' ) );
 		} else {
 			$shoppingcart->deleteOtherCost( TCP_LIMITS_PRICE_COST );
 		}

@@ -23,7 +23,7 @@ class TCPMaxSettings {
 	function __construct() {
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ), 99 );
 		global $tcp_miranda;
-		if ( $tcp_miranda ) $tcp_miranda->add_item( 'Limits', 'limits_settings', __( 'Limits', 'tcp-limits' ), false, array( 'TCPMaxSettings', __FILE__ ) );
+		if ( $tcp_miranda ) $tcp_miranda->add_item( 'Limits', 'limits_settings', __( 'Limits', 'tcp_max' ), false, array( 'TCPMaxSettings', __FILE__ ) );
 	}
 
 	function admin_menu() {
@@ -31,7 +31,7 @@ class TCPMaxSettings {
 		global $thecartpress;
 		if ( $thecartpress ) {
 			$base = $thecartpress->get_base_settings();
-			$page = add_submenu_page( $base, __( 'Lmits Setup', 'tcp-limits' ), __( 'Limits Setup', 'tcp-limits' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
+			$page = add_submenu_page( $base, __( 'Limits Setup', 'tcp_max' ), __( 'Limits Setup', 'tcp_max' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
 			//$page = add_submenu_page( $base, __( 'First Time Setup', 'tcp' ), __( 'First time', 'tcp' ), 'tcp_edit_settings', 'first_time_setup', array( &$this, 'admin_page' ) );
 			add_action( "load-$page", array( &$this, 'admin_load' ) );
 			add_action( "load-$page", array( &$this, 'admin_action' ) );
@@ -43,11 +43,11 @@ class TCPMaxSettings {
 		    'id'      => 'overview',
 		    'title'   => __( 'Overview' ),
 		    'content' =>
-	            '<p>' . __( 'You can customize TheCartPress to only accept orders with a minimum or maximum price and weigth.', 'tcp-limits' ) . '</p>',
+	            '<p>' . __( 'You can customize TheCartPress to only accept orders with a minimum or maximum price and weigth.', 'tcp_max' ) . '</p>',
 		) );
 
 		get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __( 'For more information:', 'tcp-limits' ) . '</strong></p>' .
+			'<p><strong>' . __( 'For more information:', 'tcp' ) . '</strong></p>' .
 			'<p>' . __( '<a href="http://thecartpress.com" target="_blank">Documentation on TheCartPress</a>', 'tcp' ) . '</p>' .
 			'<p>' . __( '<a href="http://community.thecartpress.com/" target="_blank">Support Forums</a>', 'tcp' ) . '</p>' .
 			'<p>' . __( '<a href="http://extend.thecartpress.com/" target="_blank">Extend site</a>', 'tcp' ) . '</p>'
@@ -56,10 +56,10 @@ class TCPMaxSettings {
 
 	function admin_page() { ?>
 <div class="wrap">
-	<?php screen_icon( 'tcp-max-min' ); ?><h2><?php _e( 'Limits Setup', 'tcp-limits' ); ?></h2>
+	<?php screen_icon( 'tcp-max-min' ); ?><h2><?php _e( 'Limits Setup', 'tcp_max' ); ?></h2>
 <?php if ( !empty( $this->updated ) ) : ?>
 	<div id="message" class="updated">
-	<p><?php _e( 'Settings updated', 'tcp-limits' ); ?></p>
+	<p><?php _e( 'Settings updated', 'tcp_max' ); ?></p>
 	</div>
 <?php endif; ?>
 <?php global $thecartpress;
@@ -74,7 +74,7 @@ $max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
 <tbody>
 <tr valign="top">
 	<th scope="row">
-		<label for="min_price"><?php _e( 'Minimum price', 'tcp-limits' ); ?></label>
+		<label for="min_price"><?php _e( 'Minimum price', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="min_price" name="min_price" value="<?php echo $min_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
@@ -82,16 +82,16 @@ $max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
 </tr>
 <tr valign="top">
 	<th scope="row">
-		<label for="fee_price"><?php _e( 'Small Order Fee', 'tcp-limits' ); ?></label>
+		<label for="fee_price"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="fee_price" name="fee_price" value="<?php echo $fee_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-		<p class="description"><?php _e( 'This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order.', 'tcp-limits'); ?></p>
+		<p class="description"><?php _e( 'This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order.', 'tcp_max'); ?></p>
 	</td>
 </tr>
 <tr valign="top">
 	<th scope="row">
-		<label for="max_price"><?php _e( 'Maximum price', 'tcp-limits' ); ?></label>
+		<label for="max_price"><?php _e( 'Maximum price', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="max_price" name="max_price" value="<?php echo $max_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
@@ -99,7 +99,7 @@ $max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
 </tr>
 <tr valign="top">
 	<th scope="row">
-		<label for="min_weight"><?php _e( 'Minimum weight', 'tcp-limits' ); ?></label>
+		<label for="min_weight"><?php _e( 'Minimum weight', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="min_weight" name="min_weight" value="<?php echo $min_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
@@ -107,16 +107,16 @@ $max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
 </tr>
 <tr valign="top">
 	<th scope="row">
-		<label for="fee_weight"><?php _e( 'Small Order Fee', 'tcp-limits' ); ?></label>
+		<label for="fee_weight"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="fee_weight" name="fee_weight" value="<?php echo $fee_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-		<p class="description"><?php _e( 'This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order.', 'tcp-limits'); ?></p>
+		<p class="description"><?php _e( 'This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order.', 'tcp_max'); ?></p>
 	</td>
 </tr>
 <tr valign="top">
 	<th scope="row">
-		<label for="max_weight"><?php _e( 'Maximum Weight', 'tcp-limits' ); ?></label>
+		<label for="max_weight"><?php _e( 'Maximum Weight', 'tcp_max' ); ?></label>
 	</th>
 	<td>
 		<input type="text" id="max_weight" name="max_weight" value="<?php echo $max_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
