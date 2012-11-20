@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.0.5
+Version: 1.0.6
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -35,15 +35,16 @@ define( 'TCP_LIMITS_PRICE_COST',	'TCP_LIMITS_PRICE_COST' );
 
 class SalesLimits {
 	function __construct() {
-		add_action( 'init', array( $this, 'init' ) );
-		if ( is_admin() ) {
-			require_once( TCP_LIMITS_ADMIN_FOLDER .'MAXSettings.class.php' );
-			add_action( 'tcp_shopping_cart_summary_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
-			add_filter( 'tcp_shopping_cart_summary_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
-			add_action( 'tcp_shopping_cart_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
-			add_filter( 'tcp_shopping_cart_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
-			add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
-		}
+		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		require_once( TCP_LIMITS_ADMIN_FOLDER .'MAXSettings.class.php' );
+	}
+
+	function init() {
+		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		if ( ! function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+
 		add_filter( 'tcp_checkout_validate_before_enter', array( &$this, 'tcp_checkout_validate_before_enter' ) );
 		add_filter( 'tcp_get_shopping_cart_summary', array( &$this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
 		add_filter( 'tcp_get_shopping_cart_widget', array( &$this, 'tcp_get_shopping_cart_widget' ) );
@@ -51,10 +52,12 @@ class SalesLimits {
 		add_filter( 'tcp_modify_to_shopping_cart', array( &$this, 'tcp_add_to_shopping_cart' ) );
 	}
 
-	function init() {
-		if ( ! function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	function admin_init() {
+		add_action( 'tcp_shopping_cart_summary_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
+		add_filter( 'tcp_shopping_cart_summary_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
+		add_action( 'tcp_shopping_cart_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
+		add_filter( 'tcp_shopping_cart_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
+		add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
 	}
 
 	function admin_notices() {
@@ -206,7 +209,7 @@ class SalesLimits {
 		$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
 		$total = $shoppingcart->getTotalToShow();
 		if ( $total < $min_price && $fee_price > 0) {
-			$shoppingcart->addOtherCost( TCP_LIMITS_PRICE_COST, $fee_price, __( 'Minimum Price fee', 'tcp_max' ) );
+			$shoppingcart->addOtherCost( TCP_LIMITS_PRICE_COST, $fee_price, __( 'Minimum price fee', 'tcp_max' ) );
 		} else {
 			$shoppingcart->deleteOtherCost( TCP_LIMITS_PRICE_COST );
 		}
