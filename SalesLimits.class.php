@@ -48,8 +48,8 @@ class SalesLimits {
 		add_filter( 'tcp_checkout_validate_before_enter', array( &$this, 'tcp_checkout_validate_before_enter' ) );
 		add_filter( 'tcp_get_shopping_cart_summary', array( &$this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
 		add_filter( 'tcp_get_shopping_cart_widget', array( &$this, 'tcp_get_shopping_cart_widget' ) );
-		add_filter( 'tcp_add_to_shopping_cart', array( &$this, 'tcp_add_to_shopping_cart' ) );
-		add_filter( 'tcp_modify_to_shopping_cart', array( &$this, 'tcp_add_to_shopping_cart' ) );
+		add_filter( 'tcp_add_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
+		add_filter( 'tcp_modify_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
 	}
 
 	function admin_init() {
@@ -194,7 +194,7 @@ class SalesLimits {
 		return $links;
 	}
 
-	function tcp_add_to_shopping_cart( $shopping_cart_item ) {
+	function tcp_add_shopping_cart( $shopping_cart_item ) {
 		$shoppingcart = TheCartPress::getShoppingCart();
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weigt', 0 );
