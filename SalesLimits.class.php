@@ -138,7 +138,7 @@ class SalesLimits {
 	function exceed_weight( $html = '' ) {
 		global $thecartpress;
 		$max_weight = (float)$thecartpress->get_setting( 'max_weight', 0 );
-		return $html . '<span class="tcp_max_error excess_weight">' . sprintf( __( 'Sorry, orders over %1$s %2$s cannot be accepted', 'tcp_max' ), $max_weight, tcp_get_the_unit_weight() ) . '</span>';
+		return $html . '<span class="tcp_max_error excess_weight">' . sprintf( __( 'Sorry, orders over %1$s %2$s cannot be accepted', 'tcp_max' ), tcp_number_format( $max_weight ), tcp_get_the_unit_weight() ) . '</span>';
 	}
 
 	function exceed_price( $html = '' ) {
@@ -152,7 +152,7 @@ class SalesLimits {
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
 		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
-		return $html . '<span class="tcp_fee_weight">' . sprintf( __( 'Sorry, orders under %1$s %2$s will be recharged with %3$s', 'tcp_max' ), $min_weight, tcp_get_the_unit_weight(), tcp_format_the_price( $fee_weight ) ) . '</span>';
+		return $html . '<span class="tcp_fee_weight">' . sprintf( __( 'Sorry, orders under %1$s %2$s will be recharged with %3$s', 'tcp_max' ), tcp_number_format( $min_weight ), tcp_get_the_unit_weight(), tcp_format_the_price( $fee_weight ) ) . '</span>';
 	}
 
 	function fee_price( $html = '' ) {
