@@ -78,7 +78,7 @@ class SalesLimits {
 			$max_weight = (float)$thecartpress->get_setting( 'max_weight', 0 );
 			$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
 			$weight = $shoppingcart->getWeight();
-			$total = $shoppingcart->getTotal();
+			$total = $shoppingcart->getTotalToShow();
 			if ( $max_weight > 0 && $weight > $max_weight && $fee_price == 0 ) {
 				$out .= '<li class="tcp_max_error exceed_weight">' . $this->exceed_weight() . '</li>';
 			}

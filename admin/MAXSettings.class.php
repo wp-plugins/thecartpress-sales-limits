@@ -63,12 +63,12 @@ class TCPMaxSettings {
 	</div>
 <?php endif; ?>
 <?php global $thecartpress;
-$min_price	= $thecartpress->get_setting( 'min_price', 0 );
-$fee_price	= $thecartpress->get_setting( 'fee_price', 0 );
-$max_price	= $thecartpress->get_setting( 'max_price', 0 );
-$min_weight	= $thecartpress->get_setting( 'min_weight', 0 );
-$fee_weight	= $thecartpress->get_setting( 'fee_weight', 0 );
-$max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
+$min_price	= tcp_number_format( $thecartpress->get_setting( 'min_price', 0 ) );
+$fee_price	= tcp_number_format( $thecartpress->get_setting( 'fee_price', 0 ) );
+$max_price	= tcp_number_format( $thecartpress->get_setting( 'max_price', 0 ) );
+$min_weight	= tcp_number_format( $thecartpress->get_setting( 'min_weight', 0 ) );
+$fee_weight	= tcp_number_format( $thecartpress->get_setting( 'fee_weight', 0 ) );
+$max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) ); ?>
 <form method="post" action="">
 <table class="form-table">
 <tbody>
@@ -135,12 +135,12 @@ $max_weight	= $thecartpress->get_setting( 'max_weight', 0 ); ?>
 		if ( empty( $_POST ) ) return;
 		check_admin_referer( 'tcp_max_settings' );
 		$settings = get_option( 'tcp_settings' );
-		$settings['min_price']	= $_POST['min_price'];
-		$settings['fee_price']	= $_POST['fee_price'];
-		$settings['max_price']	= $_POST['max_price'];
-		$settings['min_weight']	= $_POST['min_weight'];
-		$settings['fee_weight']	= $_POST['fee_weight'];
-		$settings['max_weight']	= $_POST['max_weight'];
+		$settings['min_price']	= tcp_input_number( $_POST['min_price'] );
+		$settings['fee_price']	= tcp_input_number( $_POST['fee_price'] );
+		$settings['max_price']	= tcp_input_number( $_POST['max_price'] );
+		$settings['min_weight']	= tcp_input_number( $_POST['min_weight'] );
+		$settings['fee_weight']	= tcp_input_number( $_POST['fee_weight'] );
+		$settings['max_weight']	= tcp_input_number( $_POST['max_weight'] );
 		$settings = apply_filters( 'tcp_max_settings_action', $settings );
 		update_option( 'tcp_settings', $settings );
 		$this->updated = true;
