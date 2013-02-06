@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.2
+Version: 1.3
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -27,11 +27,11 @@ Parent: thecartpress
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-define( 'TCP_LIMITS_FOLDER',		dirname( __FILE__ ) . '/' );
-define( 'TCP_LIMITS_ADMIN_FOLDER',	TCP_LIMITS_FOLDER . 'admin/' );
+define( 'TCP_LIMITS_FOLDER', dirname( __FILE__ ) . '/' );
+define( 'TCP_LIMITS_ADMIN_FOLDER', TCP_LIMITS_FOLDER . 'admin/' );
 
-define( 'TCP_LIMITS_WEIGHT_COST',	'TCP_LIMITS_WEIGHT_COST' );
-define( 'TCP_LIMITS_PRICE_COST',	'TCP_LIMITS_PRICE_COST' );
+define( 'TCP_LIMITS_WEIGHT_COST', 'TCP_LIMITS_WEIGHT_COST' );
+define( 'TCP_LIMITS_PRICE_COST', 'TCP_LIMITS_PRICE_COST' );
 
 class SalesLimits {
 	function __construct() {
@@ -50,6 +50,8 @@ class SalesLimits {
 		add_filter( 'tcp_get_shopping_cart_widget', array( &$this, 'tcp_get_shopping_cart_widget' ) );
 		add_action( 'tcp_add_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
 		add_action( 'tcp_modify_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
+		add_action( 'tcp_delete_item_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
+		add_action( 'tcp_delete_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
 	}
 
 	function admin_init() {

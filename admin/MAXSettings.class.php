@@ -43,7 +43,7 @@ class TCPMaxSettings {
 		    'id'      => 'overview',
 		    'title'   => __( 'Overview' ),
 		    'content' =>
-	            '<p>' . __( 'You can customize TheCartPress to only accept orders with a minimum or maximum price and weigth.', 'tcp_max' ) . '</p>',
+	            '<p>' . __( 'You can customize TheCartPress to only accept orders with a minimum or maximum price and weight.', 'tcp_max' ) . '</p>',
 		) );
 
 		get_current_screen()->set_help_sidebar(
