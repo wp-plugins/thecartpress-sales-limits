@@ -70,6 +70,7 @@ $min_weight	= tcp_number_format( $thecartpress->get_setting( 'min_weight', 0 ) )
 $fee_weight	= tcp_number_format( $thecartpress->get_setting( 'fee_weight', 0 ) );
 $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) ); ?>
 <form method="post" action="">
+<div class="postbox">
 <table class="form-table">
 <tbody>
 <tr valign="top">
@@ -97,6 +98,13 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 		<input type="text" id="max_price" name="max_price" value="<?php echo $max_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
 	</td>
 </tr>
+</tbody>
+</table>
+</div><!-- .postbox -->
+
+<div class="postbox">
+<table class="form-table">
+<tbody>
 <tr valign="top">
 	<th scope="row">
 		<label for="min_weight"><?php _e( 'Minimum weight', 'tcp_max' ); ?></label>
@@ -125,6 +133,7 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 <?php do_action( 'tcp_max_settings_page' ); ?>
 </tbody>
 </table>
+</div><!-- .postbox -->
 <?php wp_nonce_field( 'tcp_max_settings' ); ?>
 <?php submit_button( null, 'primary', 'save-max-settings' ); ?>
 </form>
