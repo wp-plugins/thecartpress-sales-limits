@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.3
+Version: 1.4
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -199,7 +199,7 @@ class SalesLimits {
 	function tcp_add_shopping_cart() {
 		$shoppingcart = TheCartPress::getShoppingCart();
 		global $thecartpress;
-		$min_weight = (float)$thecartpress->get_setting( 'min_weigt', 0 );
+		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
 		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
 		$weight = $shoppingcart->getWeight();
 		if ( $weight < $min_weight && $fee_weight > 0 ) {
