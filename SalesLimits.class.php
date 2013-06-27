@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.4
+Version: 1.5
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
