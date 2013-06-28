@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tcp_max\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-28 08:33+0100\n"
+"POT-Creation-Date: 2013-06-28 08:34+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: sensei <sensei@thecartpress.com>\n"
 "Language-Team: \n"
@@ -12,130 +12,144 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: SPAIN\n"
-"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: thecartpress-sales-limits\n"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:67
 msgid "<strong>Limits for TheCartPress</strong> requires TheCartPress plugin is activated."
-msgstr "<strong>Límites de ventas para TheCartPress</strong> requiere el plugin de TheCartPress esté activado."
+msgstr "<strong>Limites pour TheCartPress</ strong> nécessite le plugin TheCartPress est activé."
 
 #: thecartpress-sales-limits/SalesLimits.class.php:143
 #, php-format
 msgid "Sorry, orders over %1$s %2$s cannot be accepted"
-msgstr "Lo siento, pedidos superiores a %1$s %2$s no pueden ser aceptados"
+msgstr "Désolé, les commandes de plus de %1$s %2$s ne peuvent être assurées."
 
 #: thecartpress-sales-limits/SalesLimits.class.php:149
 #, php-format
 msgid "Sorry, orders over %1$s cannot be accepted"
-msgstr "Lo siento, pedidos superiores a %1$s no pueden ser aceptados"
+msgstr "Désolé, les commandes de plus de %1$s ne peuvent être assurées."
 
 #: thecartpress-sales-limits/SalesLimits.class.php:157
 #, php-format
 msgid "Sorry, orders under %1$s %2$s will be recharged with %3$s"
-msgstr "Lo siento, pedidos por debajo de %1$s %2$s tendrán un recargo de %3$s"
+msgstr "Désolé, les commandes de moins de %1$s %2$s sera rechargée avec %3$s"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:164
 #, php-format
 msgid "Sorry, orders under %1$s will be recharged with %2$s"
-msgstr "Lo siento, pedidos por debajo de %1$s tendrán un recargo de %2$s"
+msgstr "Désolé, les commandes de moins de %1$s sera rechargée avec %2$s"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:176
 #, php-format
 msgid "Sorry, orders under %1$s cannot be accepted"
-msgstr "Lo siento, pedidos por debajo de %1$s no pueden ser aceptados"
+msgstr "Désolé, les commandes de moins de %1$s ne peuvent être assurées."
 
 #: thecartpress-sales-limits/SalesLimits.class.php:183
 msgid "See limits notices"
-msgstr "Ver los avisos"
+msgstr "Voir info concernant les limites"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:193
 msgid "Settings"
-msgstr "Propiedades"
+msgstr "Configuration"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:206
 msgid "Minimum weight fee"
-msgstr "Recargo por no exceder el peso mínimo"
+msgstr "Frais de poids minimum"
 
 #: thecartpress-sales-limits/SalesLimits.class.php:214
 msgid "Minimum price fee"
-msgstr "Recargo por exceder el precio mínimo"
+msgstr "Frais de prix minimum"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:26
 msgid "Limits"
-msgstr "Límites"
+msgstr "Limites"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:34
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:59
 msgid "Limits Setup"
-msgstr "Configuración de Límites"
+msgstr "Configuration des limites"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:44
 msgid "Overview"
-msgstr "Descripción general"
+msgstr "Vue d'ensemble"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:46
 msgid "You can customize TheCartPress to only accept orders with a minimum or maximum price and weight."
-msgstr "Puede personalizar TheCartPress para que únicamente acepte pedidos con un mínimo o máximo valor en precio o peso."
+msgstr "Vous pouvez personnaliser TheCartPress de n'accepter que les commandes avec un prix minimum ou maximum et le poids."
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:50
 msgid "For more information:"
-msgstr "Para más"
+msgstr "Pour plus d'informations:"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:51
 msgid "<a href=\"http://thecartpress.com\" target=\"_blank\">Documentation on TheCartPress</a>"
-msgstr ""
+msgstr "<a href=\"http://thecartpress.com\" target=\"_blank\">Documentation sur TheCartPress</a>"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:52
 msgid "<a href=\"http://community.thecartpress.com/\" target=\"_blank\">Support Forums</a>"
-msgstr ""
+msgstr "<a href=\"http://community.thecartpress.com/\" target=\"_blank\">Forums de support</a>"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:53
 msgid "<a href=\"http://extend.thecartpress.com/\" target=\"_blank\">Extend site</a>"
-msgstr ""
+msgstr "<a href=\"http://community.thecartpress.com/\" target=\"_blank\">étendre le site</a>"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:62
 msgid "Settings updated"
-msgstr "Propiedades actualizadas"
+msgstr "Paramètres mis à jour"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:78
 msgid "Minimum price"
-msgstr "Precio mínimo"
+msgstr "Prix minimal"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:86
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:118
 msgid "Small Order Fee"
-msgstr "Recargo por Pedido pequeño"
+msgstr "Payant Commander petite"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:90
 msgid "This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order."
-msgstr "El recargo será aplicado si el precio mínimo no es excedido. Si este valor es cero, el precio mínimo deberá ser excedido para poder realizar el pedido."
+msgstr "Cette taxe sera applicable si le prix minimum ne soit pas dépassée. Si cette valeur est égale à zéro le prix minimum doit être supérieur à procéder à la commande."
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:95
 msgid "Maximum price"
-msgstr "Precio máximo"
+msgstr "Prix maximal"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:110
 msgid "Minimum weight"
-msgstr "Peso mínimo"
+msgstr "Poids minimal"
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:122
 msgid "This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order."
-msgstr "El recargo será aplicado si el peso mínimo no es excedido. Si este valor es cero, el peso mínimo deberá ser excedido para poder realizar el pedido."
+msgstr "Cette taxe sera applicable si le poids minimum ne soit pas dépassée. Si cette valeur est zéro, le poids minimum doit être supérieur à procéder à la commande."
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:127
 msgid "Maximum Weight"
-msgstr "Peso máximo"
+msgstr "Poids maximum"
 
-#~ msgid "Lmits Setup"
-#~ msgstr "Configuración de Límites"
+#~ msgid "Sales Limits Settings"
+#~ msgstr "Configuration des ventes limites"
 
-#~ msgid "Limits settings"
-#~ msgstr "Propiedades de Límites"
+#~ msgid "You can customize Sales Limits Settings."
+#~ msgstr "Vous pouvez personnaliser limite les ventes des paramètres."
+
+#~ msgid "Max Settings"
+#~ msgstr "Paramètres Max"
 
 #~ msgid "Maximum-Minimum Settings"
-#~ msgstr "Propiedades Máximo-Mínimo"
+#~ msgstr "Configuration Maximum-Minimum"
 
 #~ msgid "Save Changes"
-#~ msgstr "Guardar Cambios"
+#~ msgstr "Enregistrer les modifications"
+
+#~ msgid "The shopping cart exceeds the maximum weight allowed"
+#~ msgstr "Le poids contenu dans le panier dépasse la limite maximale"
+
+#~ msgid "The shopping cart exceeds the maximum price allowed"
+#~ msgstr "Le prix du panier dépasse la limite maximale"
+
+#~ msgid ""
+#~ "The weight of the shopping cart doesn't reach the minimum value allowed"
+#~ msgstr "Le poids contenu dans le panier n’atteint pas la limite minimale"
+
+#~ msgid ""
+#~ "The price of the shopping cart doesn't reach the minimum value allowed"
+#~ msgstr "Le prix du panier n’atteint pas la limite minimale"

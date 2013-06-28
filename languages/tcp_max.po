@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tcp_max\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-14 22:22+0100\n"
+"POT-Creation-Date: 2013-06-28 08:33+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: sensei <sensei@thecartpress.com>\n"
 "Language-Team: \n"
@@ -14,48 +14,48 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: thecartpress-sales-limits\n"
 
-#: thecartpress-sales-limits/SalesLimits.class.php:65
+#: thecartpress-sales-limits/SalesLimits.class.php:67
 msgid "<strong>Limits for TheCartPress</strong> requires TheCartPress plugin is activated."
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:141
+#: thecartpress-sales-limits/SalesLimits.class.php:143
 #, php-format
 msgid "Sorry, orders over %1$s %2$s cannot be accepted"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:147
+#: thecartpress-sales-limits/SalesLimits.class.php:149
 #, php-format
 msgid "Sorry, orders over %1$s cannot be accepted"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:155
+#: thecartpress-sales-limits/SalesLimits.class.php:157
 #, php-format
 msgid "Sorry, orders under %1$s %2$s will be recharged with %3$s"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:162
+#: thecartpress-sales-limits/SalesLimits.class.php:164
 #, php-format
 msgid "Sorry, orders under %1$s will be recharged with %2$s"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:174
+#: thecartpress-sales-limits/SalesLimits.class.php:176
 #, php-format
 msgid "Sorry, orders under %1$s cannot be accepted"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:181
+#: thecartpress-sales-limits/SalesLimits.class.php:183
 msgid "See limits notices"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:191
+#: thecartpress-sales-limits/SalesLimits.class.php:193
 msgid "Settings"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:204
+#: thecartpress-sales-limits/SalesLimits.class.php:206
 msgid "Minimum weight fee"
 msgstr ""
 
-#: thecartpress-sales-limits/SalesLimits.class.php:212
+#: thecartpress-sales-limits/SalesLimits.class.php:214
 msgid "Minimum price fee"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgid "Overview"
 msgstr ""
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:46
-msgid "You can customize TheCartPress to only accept orders with a minimum or maximum price and weigth."
+msgid "You can customize TheCartPress to only accept orders with a minimum or maximum price and weight."
 msgstr ""
 
 #: thecartpress-sales-limits/admin/MAXSettings.class.php:50
@@ -96,32 +96,32 @@ msgstr ""
 msgid "Settings updated"
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:77
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:78
 msgid "Minimum price"
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:85
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:110
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:86
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:118
 msgid "Small Order Fee"
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:89
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:90
 msgid "This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order."
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:94
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:95
 msgid "Maximum price"
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:102
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:110
 msgid "Minimum weight"
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:114
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:122
 msgid "This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order."
 msgstr ""
 
-#: thecartpress-sales-limits/admin/MAXSettings.class.php:119
+#: thecartpress-sales-limits/admin/MAXSettings.class.php:127
 msgid "Maximum Weight"
 msgstr ""
 
