@@ -16,26 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
+if ( !class_exists( 'TCPMaxSettings' ) ) :
+
 class TCPMaxSettings {
 
 	private $updated = false;
 
 	function __construct() {
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ), 99 );
+		add_action( 'tcp_admin_menu', array( $this, 'tcp_admin_menu' ), 99 );
 		global $tcp_miranda;
 		if ( $tcp_miranda ) $tcp_miranda->add_item( 'Limits', 'limits_settings', __( 'Limits', 'tcp_max' ), false, array( 'TCPMaxSettings', __FILE__ ) );
 	}
 
-	function admin_menu() {
+	function tcp_admin_menu( $thecartpress ) {
 		if ( ! current_user_can( 'tcp_edit_settings' ) ) return;
-		global $thecartpress;
-		if ( $thecartpress ) {
-			$base = $thecartpress->get_base_settings();
-			$page = add_submenu_page( $base, __( 'Limits Setup', 'tcp_max' ), __( 'Limits Setup', 'tcp_max' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
-			//$page = add_submenu_page( $base, __( 'First Time Setup', 'tcp' ), __( 'First time', 'tcp' ), 'tcp_edit_settings', 'first_time_setup', array( &$this, 'admin_page' ) );
-			add_action( "load-$page", array( &$this, 'admin_load' ) );
-			add_action( "load-$page", array( &$this, 'admin_action' ) );
-		}
+
+		$base = $thecartpress->get_base_settings();
+		$page = add_submenu_page( $base, __( 'Sales Limits', 'tcp_max' ), __( 'Sales Limits', 'tcp_max' ), 'tcp_edit_settings', 'max_setup', array( &$this, 'admin_page' ) );
+		add_action( "load-$page", array( $this, 'admin_load' ) );
+		add_action( "load-$page", array( $this, 'admin_action' ) );
+
 	}
 
 	function admin_load() {
@@ -56,7 +59,7 @@ class TCPMaxSettings {
 
 	function admin_page() { ?>
 <div class="wrap">
-	<?php screen_icon( 'tcp-max-min' ); ?><h2><?php _e( 'Limits Setup', 'tcp_max' ); ?></h2>
+	<?php screen_icon( 'tcp-default' ); ?><h2><?php _e( 'Sales Limits', 'tcp_max' ); ?></h2>
 <?php if ( !empty( $this->updated ) ) : ?>
 	<div id="message" class="updated">
 	<p><?php _e( 'Settings updated', 'tcp_max' ); ?></p>
@@ -71,72 +74,80 @@ $fee_weight	= tcp_number_format( $thecartpress->get_setting( 'fee_weight', 0 ) )
 $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) ); ?>
 <form method="post" action="">
 <div class="postbox">
-<table class="form-table">
-<tbody>
-<tr valign="top">
-	<th scope="row">
-		<label for="min_price"><?php _e( 'Minimum price', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="min_price" name="min_price" value="<?php echo $min_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-	</td>
-</tr>
-<tr valign="top">
-	<th scope="row">
-		<label for="fee_price"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="fee_price" name="fee_price" value="<?php echo $fee_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-		<p class="description"><?php _e( 'This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order.', 'tcp_max'); ?></p>
-	</td>
-</tr>
-<tr valign="top">
-	<th scope="row">
-		<label for="max_price"><?php _e( 'Maximum price', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="max_price" name="max_price" value="<?php echo $max_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-	</td>
-</tr>
-</tbody>
-</table>
+	<div class="inside">
+	<table class="form-table">
+	<tbody>
+	<tr valign="top">
+		<th scope="row">
+			<label for="min_price"><?php _e( 'Minimum price', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="min_price" name="min_price" value="<?php echo $min_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
+		</td>
+	</tr>
+	<tr valign="top">
+		<th scope="row">
+			<label for="fee_price"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="fee_price" name="fee_price" value="<?php echo $fee_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
+			<p class="description"><?php _e( 'This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order.', 'tcp_max'); ?></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<th scope="row">
+			<label for="max_price"><?php _e( 'Maximum price', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="max_price" name="max_price" value="<?php echo $max_price; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+	</div><!-- .inside -->
 </div><!-- .postbox -->
 
 <div class="postbox">
-<table class="form-table">
-<tbody>
-<tr valign="top">
-	<th scope="row">
-		<label for="min_weight"><?php _e( 'Minimum weight', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="min_weight" name="min_weight" value="<?php echo $min_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
-	</td>
-</tr>
-<tr valign="top">
-	<th scope="row">
-		<label for="fee_weight"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="fee_weight" name="fee_weight" value="<?php echo $fee_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
-		<p class="description"><?php _e( 'This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order.', 'tcp_max'); ?></p>
-	</td>
-</tr>
-<tr valign="top">
-	<th scope="row">
-		<label for="max_weight"><?php _e( 'Maximum Weight', 'tcp_max' ); ?></label>
-	</th>
-	<td>
-		<input type="text" id="max_weight" name="max_weight" value="<?php echo $max_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
-	</td>
-</tr>
-<?php do_action( 'tcp_max_settings_page' ); ?>
-</tbody>
-</table>
+	<div class="inside">
+	<table class="form-table">
+	<tbody>
+	<tr valign="top">
+		<th scope="row">
+			<label for="min_weight"><?php _e( 'Minimum weight', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="min_weight" name="min_weight" value="<?php echo $min_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
+		</td>
+	</tr>
+	<tr valign="top">
+		<th scope="row">
+			<label for="fee_weight"><?php _e( 'Small Order Fee', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="fee_weight" name="fee_weight" value="<?php echo $fee_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_currency(); ?>
+			<p class="description"><?php _e( 'This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order.', 'tcp_max'); ?></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<th scope="row">
+			<label for="max_weight"><?php _e( 'Maximum Weight', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<input type="text" id="max_weight" name="max_weight" value="<?php echo $max_weight; ?>" size="10" maxlength="15" /> <?php tcp_the_unit_weight(); ?>
+		</td>
+	</tr>
+	<?php do_action( 'tcp_max_settings_page' ); ?>
+	</tbody>
+	</table>
+	</div><!-- .inside -->
 </div><!-- .postbox -->
+
 <?php wp_nonce_field( 'tcp_max_settings' ); ?>
+<div class="inside">
 <?php submit_button( null, 'primary', 'save-max-settings' ); ?>
+</div><!-- .inside -->
 </form>
+
 </div><?php
 	}
 
@@ -159,4 +170,4 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 }
 
 new TCPMaxSettings();
-?>
+endif;

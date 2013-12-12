@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.6
+Version: 1.7
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -27,39 +27,46 @@ Parent: thecartpress
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) exit;
+
+if ( !class_exists( 'TCPSalesLimits' ) ) :
+
 define( 'TCP_LIMITS_FOLDER', dirname( __FILE__ ) . '/' );
 define( 'TCP_LIMITS_ADMIN_FOLDER', TCP_LIMITS_FOLDER . 'admin/' );
 
 define( 'TCP_LIMITS_WEIGHT_COST', 'TCP_LIMITS_WEIGHT_COST' );
 define( 'TCP_LIMITS_PRICE_COST', 'TCP_LIMITS_PRICE_COST' );
 
-class SalesLimits {
+class TCPSalesLimits {
 	function __construct() {
-		add_action( 'init', array( &$this, 'init' ) );
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		add_action( 'tcp_init'		, array( $this, 'tcp_init' ) );
+		add_action( 'tcp_admin_init', array( $this, 'tcp_admin_init' ) );
+
+		//includes
 		require_once( TCP_LIMITS_ADMIN_FOLDER .'MAXSettings.class.php' );
 	}
 
-	function init() {
+	function tcp_init() {
 		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		if ( ! function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_filter( 'tcp_checkout_validate_before_enter', array( &$this, 'tcp_checkout_validate_before_enter' ) );
-		add_filter( 'tcp_get_shopping_cart_summary', array( &$this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
-		add_filter( 'tcp_get_shopping_cart_widget', array( &$this, 'tcp_get_shopping_cart_widget' ) );
-		add_action( 'tcp_add_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_modify_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_delete_item_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_delete_shopping_cart', array( &$this, 'tcp_add_shopping_cart' ) );
+		add_filter( 'tcp_get_shopping_cart_summary'		, array( &$this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
+		add_filter( 'tcp_get_shopping_cart_widget'		, array( &$this, 'tcp_get_shopping_cart_widget' ) );
+		add_action( 'tcp_add_shopping_cart'				, array( &$this, 'tcp_add_shopping_cart' ) );
+		add_action( 'tcp_modify_shopping_cart'			, array( &$this, 'tcp_add_shopping_cart' ) );
+		add_action( 'tcp_delete_item_shopping_cart'		, array( &$this, 'tcp_add_shopping_cart' ) );
+		add_action( 'tcp_delete_shopping_cart'			, array( &$this, 'tcp_add_shopping_cart' ) );
 	}
 
-	function admin_init() {
-		add_action( 'tcp_shopping_cart_summary_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
-		add_filter( 'tcp_shopping_cart_summary_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
-		add_action( 'tcp_shopping_cart_widget_form', array( &$this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
-		add_filter( 'tcp_shopping_cart_widget_update', array( &$this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
-		add_filter( 'plugin_action_links', array( &$this, 'plugin_action_links' ), 10, 2 );
+	function tcp_admin_init() {
+		add_action( 'tcp_shopping_cart_summary_widget_form'		, array( $this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
+		add_filter( 'tcp_shopping_cart_summary_widget_update'	, array( $this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
+		add_action( 'tcp_shopping_cart_widget_form'				, array( $this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
+		add_filter( 'tcp_shopping_cart_widget_update'			, array( $this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
+		add_filter( 'plugin_action_links'						, array( $this, 'plugin_action_links' ), 10, 2 );
 	}
 
 	function admin_notices() {
@@ -73,14 +80,14 @@ class SalesLimits {
 		if ( isset( $args['see_maximum_msg'] ) && $args['see_maximum_msg'] ) {
 			$shoppingcart = TheCartPress::getShoppingCart();
 			global $thecartpress;
-			$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
-			$max_price = (float)$thecartpress->get_setting( 'max_price', 0 );
-			$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
+			$min_price	= (float)$thecartpress->get_setting( 'min_price', 0 );
+			$max_price	= (float)$thecartpress->get_setting( 'max_price', 0 );
+			$fee_price	= (float)$thecartpress->get_setting( 'fee_price', 0 );
 			$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
 			$max_weight = (float)$thecartpress->get_setting( 'max_weight', 0 );
 			$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
-			$weight = $shoppingcart->getWeight();
-			$total = $shoppingcart->getTotalToShow();
+			$weight		= $shoppingcart->getWeight();
+			$total		= $shoppingcart->getTotalToShow();
 			if ( $max_weight > 0 && $weight > $max_weight && $fee_price == 0 ) {
 				$out .= '<li class="tcp_max_error exceed_weight">' . $this->exceed_weight() . '</li>';
 			}
@@ -219,5 +226,5 @@ class SalesLimits {
 	}
 }
 
-new SalesLimits();
-?>
+new TCPSalesLimits();
+endif;

@@ -1,0 +1,108 @@
+# Russian translation of TheCartPress and TheCartPress plugins.
+# This file is distributed under the same license as the TheCartPress package.
+# Vladimir Vasilenko <vladimir@shumbely.com>, 2013
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TheCartPress Sales Limits\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-17 23:05+0300\n"
+"PO-Revision-Date: 2013-08-17 23:28+0300\n"
+"Last-Translator: jeltoesolnce <vladimir@shumbely.com>\n"
+"Language-Team: russian <ru@li.org>\n"
+"Language: russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../SalesLimits.class.php:67
+msgid "<strong>Limits for TheCartPress</strong> requires TheCartPress plugin is activated."
+msgstr "<strong>Лимиты для TheCartPress</strong> требуют активированную TheCartPress"
+#: ../SalesLimits.class.php:143
+#, php-format
+msgid "Sorry, orders over %1$s %2$s cannot be accepted"
+msgstr "Извините, заказы свыше %1$s %2$s не могут быть приняты"
+#: ../SalesLimits.class.php:149
+#, php-format
+msgid "Sorry, orders over %1$s cannot be accepted"
+msgstr "Извините, заказы свыше %1$s не могут быть приняты"
+#: ../SalesLimits.class.php:157
+#, php-format
+msgid "Sorry, orders under %1$s %2$s will be recharged with %3$s"
+msgstr "Извините, заказы ниже %1$s %2$s будут пересчитаны с %3$s"
+#: ../SalesLimits.class.php:164
+#, php-format
+msgid "Sorry, orders under %1$s will be recharged with %2$s"
+msgstr "Извините, заказы ниже %1$s будут пересчитаны с %2$s"
+#: ../SalesLimits.class.php:176
+#, php-format
+msgid "Sorry, orders under %1$s cannot be accepted"
+msgstr "Извините, заказы ниже %1$s не могут быть приняты"
+#: ../SalesLimits.class.php:183
+msgid "See limits notices"
+msgstr "Видеть описания Лимитов"
+
+#: ../SalesLimits.class.php:193
+msgid "Settings"
+msgstr "Настройки"
+#: ../SalesLimits.class.php:206
+msgid "Minimum weight fee"
+msgstr "Ставка за минимальный вес"
+#: ../SalesLimits.class.php:214
+msgid "Minimum price fee"
+msgstr "Ставка за минимальную стоимость"
+#: ../admin/MAXSettings.class.php:26
+msgid "Limits"
+msgstr "Лимит"
+#: ../admin/MAXSettings.class.php:34 ../admin/MAXSettings.class.php:59
+msgid "Limits Setup"
+msgstr "Настройки Лимитов"
+#: ../admin/MAXSettings.class.php:44
+msgid "Overview"
+msgstr "Обзор"
+#: ../admin/MAXSettings.class.php:46
+msgid "You can customize TheCartPress to only accept orders with a minimum or maximum price and weight."
+msgstr "Вы можете настроить TheCartPress, указав заказы с минимальными или максимальными весом и ценой. "
+#: ../admin/MAXSettings.class.php:50
+msgid "For more information:"
+msgstr "Для более полной информации:"
+#: ../admin/MAXSettings.class.php:51
+msgid "<a href=\"http://thecartpress.com\" target=\"_blank\">Documentation on TheCartPress</a>"
+msgstr "<a href=\"http://thecartpress.com\" target=\"_blank\">Описание TheCartPress</a>"
+#: ../admin/MAXSettings.class.php:52
+msgid "<a href=\"http://community.thecartpress.com/\" target=\"_blank\">Support Forums</a>"
+msgstr "<a href=\"http://community.thecartpress.com/\" target=\"_blank\">Форум поддержки</a>"
+#: ../admin/MAXSettings.class.php:53
+msgid "<a href=\"http://extend.thecartpress.com/\" target=\"_blank\">Extend site</a>"
+msgstr "<a href=\"http://extend.thecartpress.com/\" target=\"_blank\">Сайт расширений</a>"
+#: ../admin/MAXSettings.class.php:62
+msgid "Settings updated"
+msgstr "Настройки обновлены"
+#: ../admin/MAXSettings.class.php:78
+msgid "Minimum price"
+msgstr "Минимальная цена"
+
+#: ../admin/MAXSettings.class.php:86 ../admin/MAXSettings.class.php:118
+msgid "Small Order Fee"
+msgstr "Сбор за малый Заказ"
+
+#: ../admin/MAXSettings.class.php:90
+msgid "This fee will be applicable if the minimum price is not exceeded. If this value is zero the minimum price must exceed to proceed to order."
+msgstr "Этот сбор будет применён, если стоимость заказа не превысит минимальный порог. Если данное значение установить нулевым, то стоимость заказа должна будет превысить минимальную, для того, чтобы появилась возможность перейти к оплате заказа."
+
+#: ../admin/MAXSettings.class.php:95
+msgid "Maximum price"
+msgstr "Максимальная цена"
+
+#: ../admin/MAXSettings.class.php:110
+msgid "Minimum weight"
+msgstr "Минимальный вес"
+
+#: ../admin/MAXSettings.class.php:122
+msgid "This fee will be applicable if the minimum weight is not exceeded. If this value is zero the minimum weight must exceed to proceed to order."
+msgstr "Этот сбор будет применён, если вес закза не превысит минимальный порог. При нулевом значении вес заказа должен будет превысить минимальный порог для того, чтобы появилась возможность оплаты заказа."
+
+#: ../admin/MAXSettings.class.php:127
+msgid "Maximum Weight"
+msgstr "Максимальный вес"
