@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.7
+Version: 1.8
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -49,16 +49,16 @@ class TCPSalesLimits {
 
 	function tcp_init() {
 		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		if ( ! function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		if ( ! is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		//if ( !function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		//if ( !is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
-		add_filter( 'tcp_checkout_validate_before_enter', array( &$this, 'tcp_checkout_validate_before_enter' ) );
-		add_filter( 'tcp_get_shopping_cart_summary'		, array( &$this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
-		add_filter( 'tcp_get_shopping_cart_widget'		, array( &$this, 'tcp_get_shopping_cart_widget' ) );
-		add_action( 'tcp_add_shopping_cart'				, array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_modify_shopping_cart'			, array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_delete_item_shopping_cart'		, array( &$this, 'tcp_add_shopping_cart' ) );
-		add_action( 'tcp_delete_shopping_cart'			, array( &$this, 'tcp_add_shopping_cart' ) );
+		add_filter( 'tcp_checkout_validate_before_enter', array( $this, 'tcp_checkout_validate_before_enter' ) );
+		add_filter( 'tcp_get_shopping_cart_summary'		, array( $this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
+		add_filter( 'tcp_get_shopping_cart_widget'		, array( $this, 'tcp_get_shopping_cart_widget' ) );
+		add_action( 'tcp_add_to_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
+		add_action( 'tcp_modify_to_shopping_cart'		, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
+		add_action( 'tcp_delete_item_shopping_cart'		, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
+		add_action( 'tcp_delete_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
 	}
 
 	function tcp_admin_init() {
@@ -114,14 +114,14 @@ class TCPSalesLimits {
 	function tcp_checkout_validate_before_enter( $param ) {
 		$shoppingcart = TheCartPress::getShoppingCart();
 		global $thecartpress;
-		$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
-		$max_price = (float)$thecartpress->get_setting( 'max_price', 0 );
-		$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
-		$min_weight = (float)$thecartpress->get_setting( 'min_weigt', 0 );
-		$max_weight = (float)$thecartpress->get_setting( 'max_weight', 0 );
-		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
-		$weight = $shoppingcart->getWeight();
-		$total = $shoppingcart->getTotalToShow();
+		$min_price	= (float)$thecartpress->get_setting( 'min_price', 0 );
+		$max_price	= (float)$thecartpress->get_setting( 'max_price', 0 );
+		$fee_price	= (float)$thecartpress->get_setting( 'fee_price', 0 );
+		$min_weight	= (float)$thecartpress->get_setting( 'min_weigt', 0 );
+		$max_weight	= (float)$thecartpress->get_setting( 'max_weight', 0 );
+		$fee_weight	= (float)$thecartpress->get_setting( 'fee_weight', 0 );
+		$weight	= $shoppingcart->getWeight();
+		$total	= $shoppingcart->getTotalToShow();
 		if ( $max_weight > 0 && $weight > $max_weight ) {
 			$param['msg'] = $this->exceed_weight();
 			$param['validate'] = false;
@@ -203,7 +203,7 @@ class TCPSalesLimits {
 		return $links;
 	}
 
-	function tcp_add_shopping_cart() {
+	function tcp_add_to_shopping_cart( $sci ) {
 		$shoppingcart = TheCartPress::getShoppingCart();
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
@@ -223,6 +223,7 @@ class TCPSalesLimits {
 			$shoppingcart->deleteOtherCost( TCP_LIMITS_PRICE_COST );
 		}
 		TheCartPress::saveShoppingCart();
+		return $sci;
 	}
 }
 
