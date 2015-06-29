@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.8
+Version: 1.9
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -32,33 +32,46 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( !class_exists( 'TCPSalesLimits' ) ) :
 
-define( 'TCP_LIMITS_FOLDER', dirname( __FILE__ ) . '/' );
-define( 'TCP_LIMITS_ADMIN_FOLDER', TCP_LIMITS_FOLDER . 'admin/' );
+define( 'TCP_LIMITS_FOLDER'			, dirname( __FILE__ ) . '/' );
+define( 'TCP_LIMITS_ADMIN_FOLDER'	, TCP_LIMITS_FOLDER . 'admin/' );
 
-define( 'TCP_LIMITS_WEIGHT_COST', 'TCP_LIMITS_WEIGHT_COST' );
-define( 'TCP_LIMITS_PRICE_COST', 'TCP_LIMITS_PRICE_COST' );
+define( 'TCP_LIMITS_WEIGHT_COST'	, 'TCP_LIMITS_WEIGHT_COST' );
+define( 'TCP_LIMITS_PRICE_COST'		, 'TCP_LIMITS_PRICE_COST' );
 
 class TCPSalesLimits {
 	function __construct() {
 		add_action( 'tcp_init'		, array( $this, 'tcp_init' ) );
 		add_action( 'tcp_admin_init', array( $this, 'tcp_admin_init' ) );
 
-		//includes
+		// Includes
 		require_once( TCP_LIMITS_ADMIN_FOLDER .'MAXSettings.class.php' );
 	}
 
 	function tcp_init() {
-		if ( function_exists( 'load_plugin_textdomain' ) ) load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		if ( function_exists( 'load_plugin_textdomain' ) ) {
+			load_plugin_textdomain( 'tcp_max', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		}
 		//if ( !function_exists( 'is_plugin_active' ) ) require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		//if ( !is_plugin_active( 'thecartpress/TheCartPress.class.php' ) ) add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_filter( 'tcp_checkout_validate_before_enter', array( $this, 'tcp_checkout_validate_before_enter' ) );
 		add_filter( 'tcp_get_shopping_cart_summary'		, array( $this, 'tcp_get_shopping_cart_summary' ), 10, 2 );
 		add_filter( 'tcp_get_shopping_cart_widget'		, array( $this, 'tcp_get_shopping_cart_widget' ) );
-		add_action( 'tcp_add_to_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
+
+		/*add_action( 'tcp_add_to_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
 		add_action( 'tcp_modify_to_shopping_cart'		, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
 		add_action( 'tcp_delete_item_shopping_cart'		, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
-		add_action( 'tcp_delete_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );
+		add_action( 'tcp_delete_shopping_cart'			, array( $this, 'tcp_add_to_shopping_cart' ), 50 );*/
+
+		add_action( 'tcp_shopping_cart_item_added'		, array( $this, 'tcp_shopping_cart_item_added' ), 10, 2 );
+		add_action( 'tcp_shopping_cart_item_modified'	, array( $this, 'tcp_shopping_cart_item_added' ), 10, 2 );
+		add_action( 'tcp_shopping_cart_item_deleted'	, array( $this, 'tcp_shopping_cart_item_added' ), 10, 2 );
+
+		add_action( 'tcp_shopping_cart_all_deleted'		, array( $this, 'tcp_shopping_cart_all_deleted' ) );
+
+		// Displays a notice over the shopping cart
+		add_action( 'tcp_shopping_cart_before_cart'		, array( $this, 'tcp_shopping_cart_before_cart' ) );
+		add_action( 'tcp_shopping_cart_after_cart'		, array( $this, 'tcp_shopping_cart_after_cart' ) );
 	}
 
 	function tcp_admin_init() {
@@ -67,6 +80,10 @@ class TCPSalesLimits {
 		add_action( 'tcp_shopping_cart_widget_form'				, array( $this, 'tcp_shopping_cart_summary_widget_form' ), 10, 2 );
 		add_filter( 'tcp_shopping_cart_widget_update'			, array( $this, 'tcp_shopping_cart_summary_widget_update' ), 10, 2 );
 		add_filter( 'plugin_action_links'						, array( $this, 'plugin_action_links' ), 10, 2 );
+
+		// Notices, for fee
+		tcp_add_template_class( 'tcp_Shopping_cart_fee_price_notice'	, __( 'This notice will be showed in shopping cart if price fee must be charge', 'tcp' ) );
+		tcp_add_template_class( 'tcp_Shopping_cart_fee_weight_notice'	, __( 'This notice will be showed in shopping cart if weight fee must be charge', 'tcp' ) );
 	}
 
 	function admin_notices() {
@@ -203,7 +220,7 @@ class TCPSalesLimits {
 		return $links;
 	}
 
-	function tcp_add_to_shopping_cart( $sci ) {
+/*	function tcp_add_to_shopping_cart( $sci ) {
 		$shoppingcart = TheCartPress::getShoppingCart();
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
@@ -224,6 +241,74 @@ class TCPSalesLimits {
 		}
 		TheCartPress::saveShoppingCart();
 		return $sci;
+	}*/
+
+	function tcp_shopping_cart_item_added( $post_id, $shoppingcart ) {
+		global $thecartpress;
+		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
+		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
+		$weight = $shoppingcart->getWeight();
+		if ( $weight < $min_weight && $fee_weight > 0 ) {
+			$shoppingcart->addOtherCost( TCP_LIMITS_WEIGHT_COST, $fee_weight, __( 'Minimum weight fee', 'tcp_max' ) );
+		} else {
+			$shoppingcart->deleteOtherCost( TCP_LIMITS_WEIGHT_COST );
+		}
+		$min_price = (float)$thecartpress->get_setting( 'min_price', 0 );
+		$fee_price = (float)$thecartpress->get_setting( 'fee_price', 0 );
+		$total = $shoppingcart->getTotalToShow();
+		if ( $total < $min_price && $fee_price > 0) {
+			$shoppingcart->addOtherCost( TCP_LIMITS_PRICE_COST, $fee_price, __( 'Minimum price fee', 'tcp_max' ) );
+		} else {
+			$shoppingcart->deleteOtherCost( TCP_LIMITS_PRICE_COST );
+		}
+	}
+
+	function tcp_shopping_cart_all_deleted( $shoppingcart ) {
+		$this->tcp_shopping_cart_item_added( null, $shoppingcart );
+	}
+
+	function tcp_shopping_cart_before_cart() {
+		$display = thecartpress()->get_setting( 'display_shopping_cart_fee_message', 'before' );
+		if ( 'before' == $display || 'before-after' == $display ) {
+			$this->display_fee_message();
+		}
+	}
+
+	function tcp_shopping_cart_after_cart() {
+		$display = thecartpress()->get_setting( 'display_shopping_cart_fee_message', 'before' );
+		if ( 'after' == $display || 'before-after' == $display ) {
+			$this->display_fee_message();
+		}
+	}
+
+	private function display_fee_message() {
+		global $thecartpress;
+
+		$shoppingcart = TheCartPress::$shoppingCart;
+
+		// Weight
+		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
+		$fee_weight = (float)$thecartpress->get_setting( 'fee_weight', 0 );
+		$weight		= $shoppingcart->getWeight();
+		if ( $weight < $min_weight && $fee_weight > 0 ) {
+			$out = tcp_do_template( 'tcp_Shopping_cart_fee_weight_notice', false );
+			if ( $out == '' ) {
+				$out = $this->fee_weight();
+			}
+			echo '<div class="tcp_min_fee not_reach_weight">', $this->fee_weight(), '</div>';
+		}
+
+		// Price
+		$min_price	= (float)$thecartpress->get_setting( 'min_price', 0 );
+		$fee_price	= (float)$thecartpress->get_setting( 'fee_price', 0 );
+		$total		= $shoppingcart->getTotalToShow();
+		if ( $total < $min_price && $fee_price > 0) {
+			$out = tcp_do_template( 'tcp_Shopping_cart_fee_price_notice', false );
+			if ( $out == '' ) {
+				$out = $this->fee_price();
+			}	
+			echo '<div class="tcp_min_fee not_reach_price">', $out, '</div>';
+		}
 	}
 }
 

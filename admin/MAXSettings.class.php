@@ -21,6 +21,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 if ( !class_exists( 'TCPMaxSettings' ) ) :
 
+/**
+ * Sales limits settings menu page
+ */
 class TCPMaxSettings {
 
 	private $updated = false;
@@ -52,8 +55,8 @@ class TCPMaxSettings {
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'tcp' ) . '</strong></p>' .
 			'<p>' . __( '<a href="http://thecartpress.com" target="_blank">Documentation on TheCartPress</a>', 'tcp' ) . '</p>' .
-			'<p>' . __( '<a href="http://community.thecartpress.com/" target="_blank">Support Forums</a>', 'tcp' ) . '</p>' .
-			'<p>' . __( '<a href="http://extend.thecartpress.com/" target="_blank">Extend site</a>', 'tcp' ) . '</p>'
+			'<p>' . __( '<a href="http://thecartpress.com/community" target="_blank">Support Forums</a>', 'tcp' ) . '</p>' .
+			'<p>' . __( '<a href="http://thecartpress.com/extend" target="_blank">Extend site</a>', 'tcp' ) . '</p>'
 		);
 	}
 
@@ -71,7 +74,8 @@ $fee_price	= tcp_number_format( $thecartpress->get_setting( 'fee_price', 0 ) );
 $max_price	= tcp_number_format( $thecartpress->get_setting( 'max_price', 0 ) );
 $min_weight	= tcp_number_format( $thecartpress->get_setting( 'min_weight', 0 ) );
 $fee_weight	= tcp_number_format( $thecartpress->get_setting( 'fee_weight', 0 ) );
-$max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) ); ?>
+$max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) );
+$display	= $thecartpress->get_setting( 'display_shopping_cart_fee_message', 'before' ); ?>
 <form method="post" action="">
 <div class="postbox">
 	<div class="inside">
@@ -142,6 +146,28 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 	</div><!-- .inside -->
 </div><!-- .postbox -->
 
+<div class="postbox">
+	<div class="inside">
+	<table class="form-table">
+	<tbody>
+	<tr valign="top">
+		<th scope="row">
+			<label for="min_weight"><?php _e( 'Shopping_cart display fee message', 'tcp_max' ); ?></label>
+		</th>
+		<td>
+			<select id="display_shopping_cart_fee_message" name="display_shopping_cart_fee_message">
+				<option <?php selected( $display, 'before' ); ?> value="before"><?php _e( 'Before', 'tcp' ); ?></option>
+				<option <?php selected( $display, 'after' ); ?> value="after"><?php _e( 'After', 'tcp' ); ?></option>
+				<option <?php selected( $display, 'before-after' ); ?> value="before-after"><?php _e( 'Before & After', 'tcp' ); ?></option>
+				<option <?php selected( $display, 'none' ); ?> value="none"><?php _e( 'None', 'tcp' ); ?></option>
+			</select>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div><!-- .inside -->
+</div><!-- .postbox -->
+
 <?php wp_nonce_field( 'tcp_max_settings' ); ?>
 <div class="inside">
 <?php submit_button( null, 'primary', 'save-max-settings' ); ?>
@@ -154,6 +180,7 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 	function admin_action() {
 		if ( empty( $_POST ) ) return;
 		check_admin_referer( 'tcp_max_settings' );
+
 		$settings = get_option( 'tcp_settings' );
 		$settings['min_price']	= tcp_input_number( $_POST['min_price'] );
 		$settings['fee_price']	= tcp_input_number( $_POST['fee_price'] );
@@ -161,11 +188,11 @@ $max_weight	= tcp_number_format( $thecartpress->get_setting( 'max_weight', 0 ) )
 		$settings['min_weight']	= tcp_input_number( $_POST['min_weight'] );
 		$settings['fee_weight']	= tcp_input_number( $_POST['fee_weight'] );
 		$settings['max_weight']	= tcp_input_number( $_POST['max_weight'] );
+		$settings['display_shopping_cart_fee_message'] = isset( $_POST['display_shopping_cart_fee_message'] ) ? $_POST['display_shopping_cart_fee_message'] : 'before';
 		$settings = apply_filters( 'tcp_max_settings_action', $settings );
 		update_option( 'tcp_settings', $settings );
 		$this->updated = true;
-		global $thecartpress;
-		$thecartpress->load_settings();
+		thecartpress()->load_settings();
 	}
 }
 
