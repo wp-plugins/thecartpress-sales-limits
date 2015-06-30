@@ -3,7 +3,7 @@
 Plugin Name: TheCartPress Sales Limits
 Plugin URI: http://extend.thecartpress.com/ecommerce-plugins/limits/
 Description: Sales Limits for TheCartPress
-Version: 1.9
+Version: 1.9.1
 Author: TheCartPress team
 Author URI: http://thecartpress.com
 License: GPL
@@ -188,6 +188,11 @@ class TCPSalesLimits {
 		return $html . '<span class="tcp_fee_weight">' . sprintf( __( 'Sorry, orders under %1$s will be recharged with %2$s', 'tcp_max' ), tcp_format_the_price( $min_price ), tcp_format_the_price( $fee_price ) ) . '</span>';
 	}
 
+	function fee_price_ex( $min_price, $fee_price, $total ) {
+		$rest = $min_price - $total;
+		return '<span class="tcp_fee_price">' . sprintf( __( 'Shop for %1$s more and save the minimum order fee (%2$s)', 'tcp_max' ), tcp_format_the_price( $rest ), tcp_format_the_price( $fee_price ) ) . '</span>';
+	}
+
 	/*function not_reach_weight( $html = '' ) {
 		global $thecartpress;
 		$min_weight = (float)$thecartpress->get_setting( 'min_weight', 0 );
@@ -305,7 +310,7 @@ class TCPSalesLimits {
 		if ( $total < $min_price && $fee_price > 0) {
 			$out = tcp_do_template( 'tcp_Shopping_cart_fee_price_notice', false );
 			if ( $out == '' ) {
-				$out = $this->fee_price();
+				$out = $this->fee_price_ex( $min_price, $fee_price, $total );
 			}	
 			echo '<div class="tcp_min_fee not_reach_price">', $out, '</div>';
 		}
